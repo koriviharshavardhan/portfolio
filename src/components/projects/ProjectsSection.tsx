@@ -1,0 +1,408 @@
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { useSound } from '@/components/providers/SoundProvider';
+import { projects, Project } from '@/lib/data';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, ExternalLink, Cpu, Play, X, Sliders, ChevronRight } from 'lucide-react';
+import { GithubIcon as Github } from '@/components/ui/CustomIcons';
+
+export const ProjectsSection: React.FC = () => {
+  const { play, narrate } = useSound();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // Comparison slider position (percentage 0 to 100)
+  const [sliderPosition, setSliderPosition] = useState(50);
+  const isDragging = useRef(false);
+
+  const filters = ['All', 'AI', 'Machine Learning', 'Computer Vision', 'Python', 'TensorFlow', 'Scikit-learn'];
+
+  const filteredProjects = projects.filter((project) => {
+    const matchesSearch = project.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          project.techStack.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    if (activeFilter === 'All') return matchesSearch;
+    
+    let matchesFilter = false;
+    if (activeFilter === 'AI') matchesFilter = project.category.includes('AI');
+    else if (activeFilter === 'Machine Learning') matchesFilter = project.category.includes('Machine');
+    else if (activeFilter === 'Computer Vision') matchesFilter = project.category.includes('Vision');
+    else matchesFilter = project.techStack.includes(activeFilter);
+
+    return matchesSearch && matchesFilter;
+  });
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedProject(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Grayscale image comparison slider handlers
+  const handleSliderMove = (clientX: number, rect: DOMRect) => {
+    const x = clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setSliderPosition(percentage);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent, rect: DOMRect) => {
+    handleSliderMove(e.touches[0].clientX, rect);
+  };
+
+  const handleExplainProject = (project: Project, e: React.MouseEvent) => {
+    e.stopPropagation();
+    play('click');
+    const speechText = `Project details for ${project.name}. The problem was: ${project.problem}. The solution was: ${project.solution}. Developed using ${project.techStack.join(', ')}.`;
+    narrate(speechText);
+  };
+
+  return (
+    <section 
+      id="projects" 
+      className="relative py-28 w-full border-t border-white/5 bg-[#04070B]"
+    >
+      <div className="absolute inset-0 bg-radial-glow opacity-30 pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#7B61FF]/3 blur-[120px] pointer-events-none" />
+
+      <div className="w-full max-w-[1280px] px-6 sm:px-12 md:px-16 mx-auto relative z-10">
+        
+        {/* Module Header */}
+        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-2 font-mono text-xs text-[#00E5FF] tracking-[0.2em] uppercase mb-2">
+              <span>MODULE 04</span>
+              <span className="w-8 h-[1px] bg-[#00E5FF]/30" />
+              <span className="animate-pulse">Active</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-wider uppercase font-sans">
+              PROJECT DATABASE
+            </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-[#00E5FF] to-[#7B61FF] mt-4" />
+          </div>
+          <p className="text-[#6B7280] font-mono text-xs uppercase max-w-xs tracking-wider">
+            Engineering solutions powered by Artificial Intelligence.
+          </p>
+        </div>
+
+        {/* Filter and Search HUD Controls */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-12 pointer-events-auto">
+          {/* Filter Chips */}
+          <div className="flex flex-wrap gap-2 justify-center md:justify-start w-full md:w-auto">
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => {
+                  play('click');
+                  setActiveFilter(filter);
+                }}
+                className={`py-1.5 px-3.5 rounded-xl text-xs font-mono tracking-wider transition-all cursor-pointer ${
+                  activeFilter === filter
+                    ? 'bg-[#00E5FF]/15 border border-[#00E5FF]/40 text-[#00E5FF] shadow-[0_0_10px_rgba(0,229,255,0.1)]'
+                    : 'bg-white/3 border border-white/5 text-[#6B7280] hover:text-[#B8C1CC] hover:bg-white/5'
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative w-full md:w-72">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
+            <input
+              type="text"
+              placeholder="Search Projects..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 bg-white/3 border border-white/5 rounded-xl text-xs font-mono tracking-wider outline-none focus:border-[#00E5FF] focus:bg-white/5 transition-all text-white placeholder-[#6B7280]"
+            />
+          </div>
+        </div>
+
+        {/* Projects Grid Display */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pointer-events-auto">
+          {filteredProjects.map((project) => {
+            const isColorization = project.id === 'image-colorization';
+
+            return (
+              <div
+                key={project.id}
+                onClick={() => {
+                  play('click');
+                  setSelectedProject(project);
+                }}
+                className="glass-panel p-6 sm:p-8 rounded-[24px] border border-white/5 hover:border-[#00E5FF]/20 hover:shadow-[0_15px_40px_-15px_rgba(0,229,255,0.08)] transition-all duration-300 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
+              >
+                {/* Background scanning hover grid */}
+                <div className="absolute inset-0 bg-[#00E5FF]/[0.01] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                <div>
+                  {/* Card Header Info */}
+                  <div className="flex items-center justify-between mb-5 border-b border-white/5 pb-3">
+                    <span className="text-[10px] font-mono tracking-widest text-[#6B7280] uppercase">
+                      {project.category}
+                    </span>
+                    <span className="text-[9px] font-mono font-bold tracking-widest text-[#3DDC84] uppercase bg-[#3DDC84]/5 border border-[#3DDC84]/15 px-2 py-0.5 rounded-md">
+                      ✓ {project.status}
+                    </span>
+                  </div>
+
+                  {/* Interactive Split-Comparison Slider for Image Colorization */}
+                  {isColorization && (
+                    <div 
+                      className="w-full h-44 rounded-xl bg-black border border-white/5 overflow-hidden mb-6 relative select-none"
+                      onClick={(e) => e.stopPropagation()} // Stop modal from triggering when sliding
+                      onMouseMove={(e) => {
+                        if (isDragging.current) {
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          handleSliderMove(e.clientX, rect);
+                        }
+                      }}
+                      onTouchMove={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        handleTouchMove(e, rect);
+                      }}
+                      onMouseDown={() => { isDragging.current = true; }}
+                      onMouseUp={() => { isDragging.current = false; }}
+                      onMouseLeave={() => { isDragging.current = false; }}
+                      onTouchStart={() => { isDragging.current = true; }}
+                      onTouchEnd={() => { isDragging.current = false; }}
+                    >
+                      {/* Original Color (Right Side Background) */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#00E5FF] via-[#7B61FF] to-[#00FFA3] flex items-center justify-center">
+                        <div className="text-[11px] font-mono font-bold text-black/40 tracking-wider">AI COLORIZATION PIPELINE</div>
+                      </div>
+
+                      {/* Grayscale Mask (Left Side Overlay) */}
+                      <div 
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-neutral-800 via-neutral-600 to-neutral-700 grayscale flex items-center justify-center overflow-hidden border-r border-[#00E5FF] shadow-[0_0_10px_#00E5FF]"
+                        style={{ width: `${sliderPosition}%` }}
+                      >
+                        <div className="absolute w-[440px] text-center text-[11px] font-mono font-bold text-white/30 tracking-wider">
+                          AI COLORIZATION PIPELINE
+                        </div>
+                      </div>
+
+                      {/* Drag Handle button */}
+                      <div 
+                        className="absolute top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black border border-[#00E5FF] shadow-[0_0_10px_rgba(0,229,255,0.4)] flex items-center justify-center cursor-ew-resize pointer-events-none"
+                        style={{ left: `calc(${sliderPosition}% - 14px)` }}
+                      >
+                        <Sliders className="w-3.5 h-3.5 text-[#00E5FF]" />
+                      </div>
+
+                      <div className="absolute bottom-2 left-3 text-[9px] font-mono bg-black/75 border border-white/5 rounded px-1.5 py-0.5 text-[#6B7280] pointer-events-none">
+                        Drag Slider to Colorize
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Visual Pipeline chart for Academic Performance Prediction */}
+                  {!isColorization && (
+                    <div className="w-full h-44 rounded-xl bg-black border border-white/5 mb-6 flex flex-col justify-center p-4 relative overflow-hidden font-mono text-[9px] text-[#6B7280] gap-2.5">
+                      <div className="flex items-center justify-between border-b border-white/5 pb-1.5">
+                        <span className="text-[#B8C1CC]">DATA SCIENCE PIPELINE</span>
+                        <span className="text-[#7B61FF] font-bold">Scikit-Learn</span>
+                      </div>
+                      
+                      <div className="flex items-center gap-1">
+                        <div className="bg-white/3 border border-white/5 px-2 py-1 rounded text-white flex-1 text-center truncate">Student Data</div>
+                        <ChevronRight className="w-3 h-3 text-[#7B61FF]" />
+                        <div className="bg-white/3 border border-white/5 px-2 py-1 rounded text-white flex-1 text-center truncate">Clean/Scale</div>
+                        <ChevronRight className="w-3 h-3 text-[#7B61FF]" />
+                        <div className="bg-white/3 border border-white/5 px-2 py-1 rounded text-[#00FFA3] border-[#00FFA3]/20 flex-1 text-center truncate">Predict ML</div>
+                      </div>
+
+                      <div className="text-[8px] text-[#6B7280] text-center mt-2 leading-relaxed">
+                        Data Ingestion → Feature Scaling (StandardScaler) → Gradient Boosting Forecast Model
+                      </div>
+                    </div>
+                  )}
+
+                  <h3 className="text-xl font-bold text-white mb-2 font-sans group-hover:text-[#00E5FF] transition-colors">
+                    {project.name}
+                  </h3>
+                  <p className="text-xs text-[#B8C1CC] leading-relaxed mb-6 font-sans">
+                    {project.headline}
+                  </p>
+
+                  {/* Tech stack chips */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.techStack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="py-1 px-2.5 rounded-lg text-[10px] font-mono bg-white/3 border border-white/5 text-[#B8C1CC]"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Card footer CTA actions */}
+                <div className="flex items-center justify-between border-t border-white/5 pt-4 mt-4">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={(e) => handleExplainProject(project, e)}
+                      className="p-2 rounded-xl bg-white/3 border border-white/5 hover:border-[#00E5FF]/20 text-[#6B7280] hover:text-[#00E5FF] transition-all flex items-center justify-center"
+                      title="Audio AI Explanation"
+                    >
+                      <Play className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="text-[10px] font-mono text-[#6B7280] uppercase">Audio Summary</span>
+                  </div>
+
+                  <span className="text-xs font-semibold text-[#00E5FF] flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
+                    View Details
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+
+              </div>
+            );
+          })}
+        </div>
+
+      </div>
+
+      {/* FULLSCREEN DETAIL MODAL */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/85 backdrop-blur-md p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="glass-panel-heavy max-w-3xl w-full max-h-[85vh] rounded-[28px] border border-white/10 shadow-[0_0_50px_rgba(0,229,255,0.15)] flex flex-col overflow-hidden relative pointer-events-auto"
+            >
+              {/* Scanline */}
+              <div className="scan-line" />
+
+              {/* Close button */}
+              <button
+                onClick={() => {
+                  play('click');
+                  setSelectedProject(null);
+                }}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 border border-white/10 hover:border-[#FF4D6D]/40 text-[#B8C1CC] hover:text-[#FF4D6D] transition-colors cursor-pointer z-50"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* Modal Body Scroll Container */}
+              <div className="p-6 sm:p-10 overflow-y-auto space-y-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[10.5px] font-mono text-[#00E5FF] tracking-widest uppercase">
+                      {selectedProject.category}
+                    </span>
+                    <span className="text-[10.5px] font-mono text-[#6B7280]">/</span>
+                    <span className="text-[10.5px] font-mono text-[#B8C1CC]">
+                      Duration: {selectedProject.duration}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-wide">
+                    {selectedProject.name}
+                  </h3>
+                </div>
+
+                {/* Metrics Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-black/40 border border-white/5 p-4 rounded-2xl">
+                  {selectedProject.metrics.map((metric) => (
+                    <div key={metric.label} className="flex flex-col">
+                      <span className="text-[9px] font-mono text-[#6B7280] tracking-widest uppercase">
+                        {metric.label}
+                      </span>
+                      <span className="text-lg font-bold font-mono text-[#00E5FF]">
+                        {metric.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Core description block */}
+                <div className="space-y-4 text-sm text-[#B8C1CC] leading-relaxed">
+                  <p className="font-semibold text-white text-base">
+                    {selectedProject.headline}
+                  </p>
+                  <p>{selectedProject.description}</p>
+                </div>
+
+                {/* Details segments */}
+                <div className="space-y-4 border-t border-white/5 pt-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="text-xs font-bold font-mono text-[#7B61FF] tracking-wider uppercase mb-2">
+                        THE CHALLENGE / PROBLEM
+                      </h4>
+                      <p className="text-xs text-[#B8C1CC] leading-relaxed">
+                        {selectedProject.problem}
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold font-mono text-[#00FFA3] tracking-wider uppercase mb-2">
+                        THE SOLUTIONS / VALUE
+                      </h4>
+                      <p className="text-xs text-[#B8C1CC] leading-relaxed">
+                        {selectedProject.solution}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-white/5 pt-5">
+                    <h4 className="text-xs font-bold font-mono text-[#00E5FF] tracking-wider uppercase mb-2.5">
+                      ARCHITECTURE / PIPELINE WORKFLOW
+                    </h4>
+                    <div className="space-y-2">
+                      {selectedProject.architecture.map((step, i) => (
+                        <div key={i} className="flex items-center gap-3 text-xs bg-white/3 border border-white/5 p-2.5 rounded-xl text-[#B8C1CC]">
+                          <span className="font-mono font-bold text-[#00E5FF] text-[10px]">
+                            STEP 0{i + 1}
+                          </span>
+                          <span>{step}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Actions bottom block */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/5 pt-6 mt-8">
+                  <button
+                    onClick={(e) => handleExplainProject(selectedProject, e)}
+                    className="btn-primary py-2.5 px-5 flex items-center gap-2 cursor-pointer text-xs font-semibold tracking-wider uppercase text-white shadow-md active:scale-95"
+                  >
+                    <Play className="w-4 h-4" />
+                    AI Voice Explainer
+                  </button>
+
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={selectedProject.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-secondary py-2.5 px-4 flex items-center gap-1.5 text-xs text-[#B8C1CC] hover:text-white"
+                    >
+                      <Github className="w-4 h-4" />
+                      View Codebase
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+    </section>
+  );
+};
