@@ -144,25 +144,12 @@ export const ProfilePresentation: React.FC = () => {
       ))}
 
       {/* BACKGROUND ENERGY CORE */}
-      <div className={`absolute w-44 h-44 sm:w-60 sm:h-60 rounded-full transition-all duration-700 blur-3xl pointer-events-none ${
-        (isColorized || activeTech) ? 'bg-[#00FFA3]/20 scale-125' : 'bg-[#00E5FF]/5 animate-pulse'
-      }`} />
+      <div className="absolute w-44 h-44 sm:w-60 sm:h-60 rounded-full bg-[#00E5FF]/10 blur-3xl animate-pulse pointer-events-none" />
 
       {/* CENTRAL PROFILE ORB */}
       <div 
         ref={orbRef}
-        onClick={() => {
-          play('click');
-          setIsColorized(!isColorized);
-        }}
-        onMouseEnter={() => setIsColorized(true)}
-        onMouseLeave={() => setIsColorized(false)}
-        className={`relative w-36 h-36 sm:w-56 sm:h-56 rounded-full p-[2px] transition-all duration-700 flex items-center justify-center cursor-pointer group pointer-events-auto ${
-          (isColorized || activeTech)
-            ? 'bg-gradient-to-tr from-[#00FFA3] via-[#00E5FF] to-[#7B61FF] shadow-[0_0_50px_rgba(0,255,163,0.4)] scale-105'
-            : 'bg-gradient-to-tr from-[#00E5FF]/40 to-[#7B61FF]/40 shadow-[0_0_40px_rgba(0,229,255,0.25)]'
-        }`}
-        title="Click or Hover to toggle AI Colorization on portrait"
+        className="relative w-36 h-36 sm:w-56 sm:h-56 rounded-full p-[2px] bg-gradient-to-tr from-[#00E5FF]/60 via-[#7B61FF]/40 to-[#00FFA3]/50 shadow-[0_0_40px_rgba(0,229,255,0.3)] flex items-center justify-center group"
       >
         {/* Holographic scanner effect overlays */}
         <div className="absolute inset-0 rounded-full bg-radial-glow opacity-30 z-10 pointer-events-none" />
@@ -170,7 +157,7 @@ export const ProfilePresentation: React.FC = () => {
           <div className="absolute left-0 right-0 h-0.5 bg-[#00E5FF] shadow-[0_0_10px_#00E5FF] animate-scan" style={{ top: '50%' }} />
         </div>
 
-        {/* Circular portrait */}
+        {/* Circular portrait - Full Color Always */}
         <div className="relative w-full h-full rounded-full overflow-hidden bg-[#04070B] border border-white/10">
           <Image
             src="/profile.jpg"
@@ -178,25 +165,8 @@ export const ProfilePresentation: React.FC = () => {
             fill
             priority
             sizes="(max-width: 768px) 144px, 224px"
-            className={`object-cover object-center transition-all duration-750 ${
-              (isColorized || activeTech) 
-                ? 'grayscale-0 contrast-110 brightness-105 scale-105' 
-                : 'grayscale contrast-125 group-hover:grayscale-0'
-            }`}
+            className="object-cover object-center grayscale-0 contrast-105 brightness-100 transition-transform duration-500 group-hover:scale-105"
           />
-          {/* Cyan/Blue overlay mesh */}
-          <div className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${
-            (isColorized || activeTech) ? 'opacity-0' : 'bg-[#00E5FF]/5 mix-blend-color opacity-100'
-          }`} />
-        </div>
-
-        {/* Live Status Badge on Orb */}
-        <div className={`absolute -bottom-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full text-[8.5px] font-mono tracking-widest font-bold uppercase transition-all duration-300 z-20 whitespace-nowrap shadow-md ${
-          (isColorized || activeTech)
-            ? 'bg-[#00FFA3] text-black border border-black/20 shadow-[0_0_10px_#00FFA3]'
-            : 'bg-black/80 text-[#00E5FF] border border-[#00E5FF]/30'
-        }`}>
-          {(isColorized || activeTech) ? '🎨 COLORIZED' : '⚡ TAP TO COLOR'}
         </div>
 
         {/* Rotating outer frame notches */}
