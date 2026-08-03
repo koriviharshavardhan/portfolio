@@ -54,7 +54,7 @@ export const personalInfo = {
   phone: '+91-6301821164',
   location: 'Hyderabad, Telangana, India',
   github: 'https://github.com/koriviharshavardhan',
-  linkedin: 'https://linkedin.com/in/koriviharshavardhan',
+  linkedin: 'https://www.linkedin.com/in/korivi-harsha-vardhan-87b97b2b7',
   resumeUrl: '/resume.pdf'
 };
 

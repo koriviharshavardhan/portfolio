@@ -1,6 +1,13 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -70,7 +77,7 @@ export default function RootLayout({
     "knowsAbout": ["Artificial Intelligence", "Machine Learning", "Computer Vision", "Deep Learning", "Python", "TensorFlow", "Software Engineering"],
     "sameAs": [
       "https://github.com/koriviharshavardhan",
-      "https://linkedin.com/in/koriviharshavardhan"
+      "https://www.linkedin.com/in/korivi-harsha-vardhan-87b97b2b7"
     ],
     "url": "https://harsha-os.vercel.app"
   };

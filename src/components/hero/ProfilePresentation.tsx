@@ -44,10 +44,21 @@ export const ProfilePresentation: React.FC = () => {
     { name: 'HTML/CSS', icon: <Globe className="w-4.5 h-4.5" />, color: '#7B61FF', details: 'Advanced | Responsive Design, Glassmorphism CSS Styles', orbitRadius: 275, speed: -60 }
   ];
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     // Parallax mouse movements
     const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || window.innerWidth < 640) return;
       const { clientX, clientY } = e;
       const { innerWidth, innerHeight } = window;
       
@@ -114,12 +125,12 @@ export const ProfilePresentation: React.FC = () => {
   return (
     <div 
       ref={containerRef}
-      className="relative w-[340px] h-[340px] sm:w-[480px] sm:h-[480px] flex items-center justify-center select-none"
+      className="relative w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] flex items-center justify-center select-none"
     >
       {/* 3D CONCENTRIC ORBIT RINGS */}
-      <div className="absolute w-[310px] h-[310px] rounded-full border border-white/5 pointer-events-none" />
-      <div className="absolute w-[430px] h-[430px] rounded-full border border-white/5 pointer-events-none" />
-      <div className="absolute w-[550px] h-[550px] rounded-full border border-dashed border-white/5 pointer-events-none animate-spin-slow duration-[100s]" />
+      <div className="absolute w-[160px] h-[160px] sm:w-[310px] sm:h-[310px] rounded-full border border-white/5 pointer-events-none" />
+      <div className="absolute w-[220px] h-[220px] sm:w-[430px] sm:h-[430px] rounded-full border border-white/5 pointer-events-none" />
+      <div className="absolute w-[275px] h-[275px] sm:w-[550px] sm:h-[550px] rounded-full border border-dashed border-white/5 pointer-events-none animate-spin-slow duration-[100s]" />
 
       {/* Orbit Containers for parallax tracking */}
       {Array.from({ length: 3 }).map((_, i) => (
@@ -131,12 +142,12 @@ export const ProfilePresentation: React.FC = () => {
       ))}
 
       {/* BACKGROUND ENERGY CORE */}
-      <div className="absolute w-60 h-60 rounded-full bg-[#00E5FF]/5 blur-3xl animate-pulse pointer-events-none" />
+      <div className="absolute w-44 h-44 sm:w-60 sm:h-60 rounded-full bg-[#00E5FF]/5 blur-3xl animate-pulse pointer-events-none" />
 
       {/* CENTRAL PROFILE ORB */}
       <div 
         ref={orbRef}
-        className="relative w-44 h-44 sm:w-56 sm:h-56 rounded-full p-[2px] bg-gradient-to-tr from-[#00E5FF]/40 to-[#7B61FF]/40 flex items-center justify-center shadow-[0_0_40px_rgba(0,229,255,0.25)] group"
+        className="relative w-36 h-36 sm:w-56 sm:h-56 rounded-full p-[2px] bg-gradient-to-tr from-[#00E5FF]/40 to-[#7B61FF]/40 flex items-center justify-center shadow-[0_0_40px_rgba(0,229,255,0.25)] group"
       >
         {/* Holographic scanner effect overlays */}
         <div className="absolute inset-0 rounded-full bg-radial-glow opacity-30 z-10 pointer-events-none" />
@@ -151,7 +162,7 @@ export const ProfilePresentation: React.FC = () => {
             alt="Korivi Harsha Vardhan"
             fill
             priority
-            sizes="(max-width: 768px) 176px, 224px"
+            sizes="(max-width: 768px) 144px, 224px"
             className="object-cover object-center grayscale hover:grayscale-0 transition-all duration-750 group-hover:scale-105"
           />
           {/* Cyan/Blue overlay mesh */}
@@ -168,7 +179,7 @@ export const ProfilePresentation: React.FC = () => {
         // Compute offset angle
         const totalNodes = techNodes.length;
         const angle = (index / totalNodes) * Math.PI * 2;
-        const radius = node.orbitRadius;
+        const radius = isMobile ? node.orbitRadius * 0.5 : node.orbitRadius;
 
         // Position offset from center
         const x = Math.cos(angle) * radius;

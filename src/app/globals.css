@@ -53,11 +53,16 @@
 }
 
 /* Base Body Styles */
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 body {
   background-color: var(--color-bg-primary);
   color: #FFFFFF;
   font-family: var(--font-space-grotesk), var(--font-inter), sans-serif;
-  overflow-x: hidden;
 }
 
 /* Glassmorphism Styles */
