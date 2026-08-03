@@ -130,7 +130,7 @@ export const AboutSection: React.FC = () => {
                   alt="Korivi Harsha Vardhan"
                   fill
                   sizes="(max-width: 768px) 280px, 320px"
-                  className="object-cover object-center transition-all duration-500 group-hover:scale-103"
+                  className="object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-103"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 

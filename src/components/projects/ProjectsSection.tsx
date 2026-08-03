@@ -157,11 +157,15 @@ export const ProjectsSection: React.FC = () => {
                   {/* Interactive Split-Comparison Slider for Image Colorization */}
                   {isColorization && (
                     <div 
-                      className="w-full h-44 rounded-xl bg-black border border-white/5 overflow-hidden mb-6 relative select-none"
-                      onClick={(e) => e.stopPropagation()} // Stop modal from triggering when sliding
+                      className="w-full h-52 rounded-2xl bg-[#080E1A] border border-white/10 overflow-hidden mb-6 relative select-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] group/slider cursor-ew-resize"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        handleSliderMove(e.clientX, rect);
+                      }}
                       onMouseMove={(e) => {
-                        if (isDragging.current) {
-                          const rect = e.currentTarget.getBoundingClientRect();
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        if (isDragging.current || e.buttons === 1) {
                           handleSliderMove(e.clientX, rect);
                         }
                       }}
@@ -171,35 +175,97 @@ export const ProjectsSection: React.FC = () => {
                       }}
                       onMouseDown={() => { isDragging.current = true; }}
                       onMouseUp={() => { isDragging.current = false; }}
-                      onMouseLeave={() => { isDragging.current = false; }}
                       onTouchStart={() => { isDragging.current = true; }}
                       onTouchEnd={() => { isDragging.current = false; }}
                     >
-                      {/* Original Color (Right Side Background) */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#00E5FF] via-[#7B61FF] to-[#00FFA3] flex items-center justify-center">
-                        <div className="text-[11px] font-mono font-bold text-black/40 tracking-wider">AI COLORIZATION PIPELINE</div>
-                      </div>
+                      {/* COLORIZED IMAGE LAYER (Right Side / Underneath) */}
+                      <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-[#070D18]">
+                        <svg className="w-full h-full object-cover" viewBox="0 0 600 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <linearGradient id="skyGrad" x1="0" y1="0" x2="600" y2="240" gradientUnits="userSpaceOnUse">
+                              <stop offset="0%" stopColor="#0B1528" />
+                              <stop offset="40%" stopColor="#1A0B2E" />
+                              <stop offset="70%" stopColor="#2E0B25" />
+                              <stop offset="100%" stopColor="#051D2D" />
+                            </linearGradient>
+                            <linearGradient id="sunGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stopColor="#FF4D6D" />
+                              <stop offset="50%" stopColor="#FFC857" />
+                              <stop offset="100%" stopColor="#00E5FF" />
+                            </linearGradient>
+                            <linearGradient id="mountGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stopColor="#7B61FF" />
+                              <stop offset="100%" stopColor="#080D1A" />
+                            </linearGradient>
+                          </defs>
 
-                      {/* Grayscale Mask (Left Side Overlay) */}
-                      <div 
-                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-neutral-800 via-neutral-600 to-neutral-700 grayscale flex items-center justify-center overflow-hidden border-r border-[#00E5FF] shadow-[0_0_10px_#00E5FF]"
-                        style={{ width: `${sliderPosition}%` }}
-                      >
-                        <div className="absolute w-[440px] text-center text-[11px] font-mono font-bold text-white/30 tracking-wider">
-                          AI COLORIZATION PIPELINE
+                          {/* Futuristic Cyberpunk Landscape Vector Artwork */}
+                          <rect width="600" height="240" fill="url(#skyGrad)" />
+                          
+                          {/* Vibrant Synthwave Sun */}
+                          <circle cx="300" cy="110" r="65" fill="url(#sunGrad)" opacity="0.9" />
+                          <circle cx="300" cy="110" r="85" fill="#00E5FF" opacity="0.15" />
+
+                          {/* Mountain Ranges */}
+                          <polygon points="0,240 120,120 220,180 350,90 480,170 600,100 600,240" fill="url(#mountGrad)" opacity="0.85" />
+                          <polygon points="0,240 80,150 190,210 300,130 420,200 550,140 600,240" fill="#00FFA3" opacity="0.2" />
+
+                          {/* Neon Grid Lines */}
+                          <line x1="0" y1="180" x2="600" y2="180" stroke="#00E5FF" strokeWidth="1.5" opacity="0.6" />
+                          <line x1="0" y1="205" x2="600" y2="205" stroke="#7B61FF" strokeWidth="2" opacity="0.8" />
+                          <line x1="0" y1="225" x2="600" y2="225" stroke="#FF4D6D" strokeWidth="2.5" opacity="0.9" />
+
+                          {/* Vertical Grid Rays */}
+                          <line x1="300" y1="180" x2="300" y2="240" stroke="#00E5FF" strokeWidth="1.5" opacity="0.5" />
+                          <line x1="300" y1="180" x2="150" y2="240" stroke="#00FFA3" strokeWidth="1.5" opacity="0.4" />
+                          <line x1="300" y1="180" x2="450" y2="240" stroke="#7B61FF" strokeWidth="1.5" opacity="0.4" />
+                          <line x1="300" y1="180" x2="0" y2="240" stroke="#FFC857" strokeWidth="1" opacity="0.3" />
+                          <line x1="300" y1="180" x2="600" y2="240" stroke="#FF4D6D" strokeWidth="1" opacity="0.3" />
+                        </svg>
+
+                        {/* Top-Right Badge: Full Color Result */}
+                        <div className="absolute top-3 right-3 text-[9px] font-mono font-bold tracking-widest text-[#00FFA3] bg-black/80 border border-[#00FFA3]/30 rounded-md px-2 py-1 uppercase shadow-[0_0_10px_rgba(0,255,163,0.2)]">
+                          AI COLORIZED (RGB)
                         </div>
                       </div>
 
-                      {/* Drag Handle button */}
+                      {/* GRAYSCALE IMAGE LAYER (Left Side / Split Mask) */}
                       <div 
-                        className="absolute top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black border border-[#00E5FF] shadow-[0_0_10px_rgba(0,229,255,0.4)] flex items-center justify-center cursor-ew-resize pointer-events-none"
-                        style={{ left: `calc(${sliderPosition}% - 14px)` }}
+                        className="absolute inset-y-0 left-0 bg-[#080E1A] overflow-hidden border-r-2 border-[#00E5FF] shadow-[5px_0_20px_rgba(0,229,255,0.4)]"
+                        style={{ width: `${sliderPosition}%` }}
                       >
-                        <Sliders className="w-3.5 h-3.5 text-[#00E5FF]" />
+                        <div className="absolute top-0 left-0 w-[600px] h-full grayscale contrast-125 brightness-90">
+                          <svg className="w-full h-full object-cover" viewBox="0 0 600 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="600" height="240" fill="#1A202C" />
+                            <circle cx="300" cy="110" r="65" fill="#E2E8F0" opacity="0.8" />
+                            <polygon points="0,240 120,120 220,180 350,90 480,170 600,100 600,240" fill="#4A5568" opacity="0.9" />
+                            <polygon points="0,240 80,150 190,210 300,130 420,200 550,140 600,240" fill="#718096" opacity="0.4" />
+                            <line x1="0" y1="180" x2="600" y2="180" stroke="#A0AEC0" strokeWidth="1.5" opacity="0.6" />
+                            <line x1="0" y1="205" x2="600" y2="205" stroke="#CBD5E0" strokeWidth="2" opacity="0.8" />
+                            <line x1="0" y1="225" x2="600" y2="225" stroke="#E2E8F0" strokeWidth="2.5" opacity="0.9" />
+                            <line x1="300" y1="180" x2="300" y2="240" stroke="#CBD5E0" strokeWidth="1.5" opacity="0.5" />
+                            <line x1="300" y1="180" x2="150" y2="240" stroke="#A0AEC0" strokeWidth="1.5" opacity="0.4" />
+                            <line x1="300" y1="180" x2="450" y2="240" stroke="#A0AEC0" strokeWidth="1.5" opacity="0.4" />
+                          </svg>
+                        </div>
+
+                        {/* Top-Left Badge: Grayscale Input */}
+                        <div className="absolute top-3 left-3 text-[9px] font-mono font-bold tracking-widest text-[#B8C1CC] bg-black/80 border border-white/10 rounded-md px-2 py-1 uppercase whitespace-nowrap">
+                          INPUT (GRAYSCALE)
+                        </div>
                       </div>
 
-                      <div className="absolute bottom-2 left-3 text-[9px] font-mono bg-black/75 border border-white/5 rounded px-1.5 py-0.5 text-[#6B7280] pointer-events-none">
-                        Drag Slider to Colorize
+                      {/* SLIDER HANDLE BUTTON */}
+                      <div 
+                        className="absolute top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#04070B] border-2 border-[#00E5FF] shadow-[0_0_15px_#00E5FF] flex items-center justify-center cursor-ew-resize z-20 group-hover/slider:scale-110 transition-transform"
+                        style={{ left: `calc(${sliderPosition}% - 16px)` }}
+                      >
+                        <Sliders className="w-4 h-4 text-[#00E5FF]" />
+                      </div>
+
+                      {/* Floating Prompt instruction */}
+                      <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 text-[9.5px] font-mono bg-black/85 border border-[#00E5FF]/30 text-[#00E5FF] rounded-full px-3 py-0.5 tracking-wider shadow-[0_0_10px_rgba(0,229,255,0.2)] pointer-events-none whitespace-nowrap">
+                        ← Slide to transform B&W to Color →
                       </div>
                     </div>
                   )}

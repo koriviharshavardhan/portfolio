@@ -163,8 +163,10 @@ export const ProfilePresentation: React.FC = () => {
             fill
             priority
             sizes="(max-width: 768px) 144px, 224px"
-            className="object-cover object-center transition-all duration-500 group-hover:scale-105"
+            className="object-cover object-center grayscale hover:grayscale-0 transition-all duration-750 group-hover:scale-105"
           />
+          {/* Cyan/Blue overlay mesh */}
+          <div className="absolute inset-0 bg-[#00E5FF]/5 mix-blend-color pointer-events-none" />
         </div>
 
         {/* Rotating outer frame notches */}
