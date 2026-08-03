@@ -66,25 +66,25 @@ export const ProjectsSection: React.FC = () => {
   return (
     <section 
       id="projects" 
-      className="relative py-28 w-full border-t border-white/5 bg-[#04070B]"
+      className="relative py-20 sm:py-28 w-full border-t border-white/5 bg-[#04070B] scroll-mt-28"
     >
       <div className="absolute inset-0 bg-radial-glow opacity-30 pointer-events-none" />
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#7B61FF]/3 blur-[120px] pointer-events-none" />
 
-      <div className="w-full max-w-[1280px] px-6 sm:px-12 md:px-16 mx-auto relative z-10">
+      <div className="w-full max-w-[1280px] px-4 sm:px-12 md:px-16 mx-auto relative z-10">
         
         {/* Module Header */}
-        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="mb-12 sm:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 pt-4">
           <div>
             <div className="flex items-center gap-2 font-mono text-xs text-[#00E5FF] tracking-[0.2em] uppercase mb-2">
               <span>MODULE 04</span>
               <span className="w-8 h-[1px] bg-[#00E5FF]/30" />
               <span className="animate-pulse">Active</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-wider uppercase font-sans">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-wider uppercase font-sans">
               PROJECT DATABASE
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-[#00E5FF] to-[#7B61FF] mt-4" />
+            <div className="w-20 h-1 bg-gradient-to-r from-[#00E5FF] to-[#7B61FF] mt-3 sm:mt-4" />
           </div>
           <p className="text-[#6B7280] font-mono text-xs uppercase max-w-xs tracking-wider">
             Engineering solutions powered by Artificial Intelligence.

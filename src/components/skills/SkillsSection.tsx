@@ -104,34 +104,34 @@ export const SkillsSection: React.FC = () => {
     <section 
       id="skills" 
       ref={sectionRef}
-      className="relative py-28 w-full overflow-hidden border-t border-white/5 bg-[#0B1120]/30"
+      className="relative py-20 sm:py-28 w-full overflow-hidden border-t border-white/5 bg-[#0B1120]/30 scroll-mt-28"
     >
       <div className="absolute inset-0 holo-grid opacity-15 pointer-events-none" />
       <div className="absolute top-1/3 left-0 w-96 h-96 bg-[#00E5FF]/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/3 right-0 w-96 h-96 bg-[#7B61FF]/5 blur-3xl pointer-events-none" />
 
-      <div className="w-full max-w-[1280px] px-6 sm:px-12 md:px-16 mx-auto relative z-10">
+      <div className="w-full max-w-[1280px] px-4 sm:px-12 md:px-16 mx-auto relative z-10">
         
         {/* Module Header */}
-        <div className="mb-20">
+        <div className="mb-12 sm:mb-20 pt-4">
           <div className="flex items-center gap-2 font-mono text-xs text-[#00E5FF] tracking-[0.2em] uppercase mb-2">
             <span>MODULE 03</span>
             <span className="w-8 h-[1px] bg-[#00E5FF]/30" />
             <span className="animate-pulse">Active</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-wider uppercase font-sans">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-wider uppercase font-sans">
             TECHNICAL ARSENAL
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-[#00E5FF] to-[#7B61FF] mt-4" />
+          <div className="w-20 h-1 bg-gradient-to-r from-[#00E5FF] to-[#7B61FF] mt-3 sm:mt-4" />
         </div>
 
         {/* Top: Tech Stack Constellation visualization */}
-        <div className="w-full flex flex-col items-center mb-20 pointer-events-auto">
-          <span className="text-xs font-mono text-[#6B7280] tracking-widest uppercase mb-4">
+        <div className="w-full flex flex-col items-center mb-16 sm:mb-20 pointer-events-auto">
+          <span className="text-xs font-mono text-[#6B7280] tracking-widest uppercase mb-4 text-center">
             Neural Tech Stack Constellation
           </span>
-          <div className="w-full max-w-[500px] h-[340px] bg-black/40 border border-white/5 rounded-[24px] relative overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
-            <svg className="w-full h-full">
+          <div className="w-full max-w-[500px] h-[260px] sm:h-[340px] bg-black/40 border border-white/5 rounded-[24px] relative overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
+            <svg className="w-full h-full" viewBox="0 0 500 340" preserveAspectRatio="xMidYMid meet">
               {/* Drawing links first */}
               {constellationLinks.map((link, i) => {
                 const fromNode = constellationNodes[link.from];

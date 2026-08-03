@@ -78,26 +78,26 @@ export const AboutSection: React.FC = () => {
   return (
     <section 
       id="about"
-      className="relative py-28 w-full overflow-hidden border-t border-white/5 bg-[#0B1120]/30"
+      className="relative py-20 sm:py-28 w-full overflow-hidden border-t border-white/5 bg-[#0B1120]/30 scroll-mt-28"
     >
       {/* Visual background lines */}
       <div className="absolute inset-0 holo-grid opacity-20 pointer-events-none" />
       <div className="absolute top-1/4 right-0 w-80 h-80 bg-[#7B61FF]/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-[#00E5FF]/5 blur-3xl pointer-events-none" />
 
-      <div className="w-full max-w-[1280px] px-6 sm:px-12 md:px-16 mx-auto relative z-10">
+      <div className="w-full max-w-[1280px] px-4 sm:px-12 md:px-16 mx-auto relative z-10">
         
         {/* Module Header */}
-        <div ref={titleRef} className="mb-16">
+        <div ref={titleRef} className="mb-12 sm:mb-16 pt-4">
           <div className="flex items-center gap-2 font-mono text-xs text-[#00E5FF] tracking-[0.2em] uppercase mb-2">
             <span>MODULE 01</span>
             <span className="w-8 h-[1px] bg-[#00E5FF]/30" />
             <span className="animate-pulse">Active</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-wider uppercase font-sans">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-wider uppercase font-sans">
             ABOUT THE ENGINEER
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-[#00E5FF] to-[#7B61FF] mt-4" />
+          <div className="w-20 h-1 bg-gradient-to-r from-[#00E5FF] to-[#7B61FF] mt-3 sm:mt-4" />
         </div>
 
         {/* Desktop 2-Column Grid */}
@@ -110,7 +110,7 @@ export const AboutSection: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
-              className="relative w-72 h-72 sm:w-80 sm:h-80 rounded-[28px] p-1 bg-gradient-to-tr from-[#00E5FF]/20 to-[#7B61FF]/20 shadow-[0_15px_35px_rgba(0,0,0,0.5)] float-element flex items-center justify-center group"
+              className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-[28px] p-1 bg-gradient-to-tr from-[#00E5FF]/30 to-[#7B61FF]/30 shadow-[0_15px_35px_rgba(0,0,0,0.5)] float-element flex items-center justify-center group cursor-pointer"
             >
               {/* Corner brackets */}
               <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#00E5FF]/40 rounded-tl" />
@@ -123,21 +123,26 @@ export const AboutSection: React.FC = () => {
                 <div className="scan-line" />
               </div>
 
-              {/* Photo inside */}
+              {/* Photo inside: Color by default, changes to Black & White on action (hover/tap) */}
               <div className="relative w-full h-full rounded-[26px] overflow-hidden bg-black/60 border border-white/10">
                 <Image
                   src="/profile.jpg"
                   alt="Korivi Harsha Vardhan"
                   fill
-                  sizes="(max-width: 768px) 280px, 320px"
-                  className="object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-103"
+                  sizes="(max-width: 768px) 256px, 320px"
+                  className="object-cover object-center grayscale-0 group-hover:grayscale transition-all duration-700 group-hover:scale-103"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                 
                 {/* Floating name badge inside frame */}
-                <div className="absolute bottom-4 left-4 right-4 bg-[#0B1120]/90 border border-white/10 p-2.5 rounded-xl backdrop-blur-md">
-                  <div className="text-[10px] font-mono text-[#00E5FF] tracking-widest uppercase">System Core Owner</div>
-                  <div className="text-xs font-bold text-white tracking-wide mt-0.5">KORIVI HARSHA VARDHAN</div>
+                <div className="absolute bottom-4 left-4 right-4 bg-[#0B1120]/90 border border-white/10 p-2.5 rounded-xl backdrop-blur-md flex items-center justify-between">
+                  <div>
+                    <div className="text-[10px] font-mono text-[#00E5FF] tracking-widest uppercase">System Core Owner</div>
+                    <div className="text-xs font-bold text-white tracking-wide mt-0.5">KORIVI HARSHA VARDHAN</div>
+                  </div>
+                  <span className="text-[8px] font-mono text-[#00FFA3] bg-[#00FFA3]/10 border border-[#00FFA3]/30 px-1.5 py-0.5 rounded uppercase">
+                    COLOR ➔ B&W
+                  </span>
                 </div>
               </div>
             </motion.div>
