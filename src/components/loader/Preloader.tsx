@@ -75,9 +75,10 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       setPrintedLogs((prev) => [...prev, BOOT_LOGS[index]]);
       play('tick');
 
-      // Scroll terminal to bottom
+      // Scroll internal terminal box to bottom
       setTimeout(() => {
-        terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        const termBox = terminalEndRef.current?.parentElement;
+        if (termBox) termBox.scrollTop = termBox.scrollHeight;
       }, 50);
 
       const delay = Math.random() * 200 + 150; // Variable speed

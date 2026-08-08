@@ -32,8 +32,17 @@ export const AIAssistant: React.FC = () => {
     'Contact Harsha.'
   ];
 
+  const isInitialMount = useRef(true);
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    const msgContainer = chatWindowRef.current?.querySelector('.overflow-y-auto');
+    if (msgContainer) {
+      msgContainer.scrollTop = msgContainer.scrollHeight;
+    }
   }, [messages, isTyping]);
 
   // Close when clicking outside
