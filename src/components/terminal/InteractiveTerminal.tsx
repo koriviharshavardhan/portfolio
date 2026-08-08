@@ -314,7 +314,6 @@ ${strengths.map(s => `  ✓ ${s}`).join('\n')}`;
                   onChange={(e) => setInputVal(e.target.value)}
                   onKeyDown={handleKeyDown}
                   className="w-full bg-transparent outline-none border-none text-[#00E5FF] font-mono text-xs caret-transparent"
-                  autoFocus
                   autoComplete="off"
                   spellCheck="false"
                 />

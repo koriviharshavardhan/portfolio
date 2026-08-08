@@ -27,6 +27,11 @@ export default function Home() {
   const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+    }
+
     // Check if the user has already set sound permissions
     const soundPref = localStorage.getItem('harsha_os_audio');
     
@@ -39,6 +44,12 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    if (appReady && typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  }, [appReady]);
+
   const handleSoundModalDismiss = () => {
     setShowSoundModal(false);
     setBootSequenceActive(true);
@@ -47,6 +58,9 @@ export default function Home() {
   const handlePreloaderComplete = () => {
     setBootSequenceActive(false);
     setAppReady(true);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
   };
 
   return (
