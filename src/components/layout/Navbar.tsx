@@ -80,7 +80,7 @@ export const Navbar: React.FC = () => {
               <span className="font-extrabold text-white text-xs select-none">HV</span>
             </div>
             <span className="font-sans font-bold text-sm tracking-widest text-white group-hover:text-[#00E5FF] transition-colors">
-              HARSHA OS
+              HARSHA
             </span>
           </a>
 
@@ -199,7 +199,7 @@ export const Navbar: React.FC = () => {
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#00E5FF] to-[#7B61FF] flex items-center justify-center shadow-[0_0_20px_rgba(0,229,255,0.4)]">
             <span className="font-extrabold text-white text-base">HV</span>
           </div>
-          <span className="font-mono text-xs tracking-widest text-[#00E5FF] uppercase">Harsha OS 2030</span>
+          <span className="font-mono text-xs tracking-widest text-[#00E5FF] uppercase">Harsha 2030</span>
         </div>
 
         <nav className="flex flex-col items-center gap-4">

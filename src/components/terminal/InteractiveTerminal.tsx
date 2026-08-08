@@ -14,7 +14,7 @@ interface HistoryItem {
 export const InteractiveTerminal: React.FC = () => {
   const { play, setSound, soundEnabled } = useSound();
   const [history, setHistory] = useState<HistoryItem[]>([
-    { command: 'system --boot', output: 'Welcome to Harsha OS v2030 Terminal Emulator.\nType "help" to view a list of available system commands.' }
+    { command: 'system --boot', output: 'Welcome to Harsha v2030 Terminal Emulator.\nType "help" to view a list of available system commands.' }
   ]);
   const [inputVal, setInputVal] = useState('');
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);

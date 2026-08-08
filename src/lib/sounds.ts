@@ -34,7 +34,7 @@ export const setAudioEnabled = (enabled: boolean) => {
 };
 
 // Programmatic Synthesizer for UI Sounds
-export const playSound = (type: 'click' | 'hover' | 'tick' | 'whoosh' | 'achievement' | 'scan' | 'error' | 'success') => {
+export const playSound = (type: 'click' | 'hover' | 'tick' | 'whoosh' | 'achievement' | 'scan' | 'error' | 'success' | 'scroll') => {
   if (!isAudioEnabled()) return;
   const ctx = getAudioContext();
   if (!ctx) return;
@@ -46,6 +46,25 @@ export const playSound = (type: 'click' | 'hover' | 'tick' | 'whoosh' | 'achieve
   const now = ctx.currentTime;
 
   switch (type) {
+    case 'scroll': {
+      // Soft futuristic mechanical tick on scroll
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      
+      const baseFreq = 850 + Math.random() * 300;
+      osc.frequency.setValueAtTime(baseFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(300, now + 0.02);
+
+      gain.gain.setValueAtTime(0.012, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.03);
+      break;
+    }
     case 'click': {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();

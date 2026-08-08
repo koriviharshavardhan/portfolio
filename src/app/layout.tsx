@@ -28,19 +28,19 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HARSHA OS 2030 | Korivi Harsha Vardhan | AI & ML Engineer Portfolio",
-  description: "Futuristic portfolio & interactive AI Operating System of Korivi Harsha Vardhan. Discover cutting-edge machine learning models, computer vision systems, and robust software architectures.",
-  keywords: ["Korivi Harsha Vardhan", "Harsha OS", "AI Engineer", "Machine Learning Portfolio", "Computer Vision Developer", "Python Expert", "Software Engineer Hyderabad", "Awwwards Portfolio"],
+  title: "HARSHA 2030 | Korivi Harsha Vardhan | AI & ML Engineer Portfolio",
+  description: "Futuristic portfolio & interactive AI System of Korivi Harsha Vardhan. Discover cutting-edge machine learning models, computer vision systems, and robust software architectures.",
+  keywords: ["Korivi Harsha Vardhan", "Harsha", "AI Engineer", "Machine Learning Portfolio", "Computer Vision Developer", "Python Expert", "Software Engineer Hyderabad", "Awwwards Portfolio"],
   authors: [{ name: "Korivi Harsha Vardhan" }],
   metadataBase: new URL("https://harsha-os.vercel.app"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "HARSHA OS 2030 | The Future of Intelligent Engineering",
-    description: "Experience the interactive AI Operating System portfolio of Korivi Harsha Vardhan, featuring computer vision, deep learning pipelines, and full-stack software systems.",
+    title: "HARSHA 2030 | The Future of Intelligent Engineering",
+    description: "Experience the interactive AI System portfolio of Korivi Harsha Vardhan, featuring computer vision, deep learning pipelines, and full-stack software systems.",
     url: "https://harsha-os.vercel.app",
-    siteName: "HARSHA OS",
+    siteName: "HARSHA",
     locale: "en_US",
     type: "profile",
     firstName: "Harsha Vardhan",
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "HARSHA OS 2030 | AI & ML Engineer Portfolio",
-    description: "Step into an immersive, futuristic AI Operating System showcasing Korivi Harsha Vardhan's engineering expertise.",
+    title: "HARSHA 2030 | AI & ML Engineer Portfolio",
+    description: "Step into an immersive, futuristic AI System showcasing Korivi Harsha Vardhan's engineering expertise.",
     creator: "@harsha_korivi",
   },
   robots: {

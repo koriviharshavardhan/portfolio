@@ -19,7 +19,7 @@ const BOOT_LOGS = [
   "Rendering 3D Scene...",
   "Checking GPU configuration...",
   "Preparing User Interface...",
-  "Launching Harsha OS..."
+  "Launching Harsha..."
 ];
 
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete, onSkip }) => {
@@ -110,13 +110,13 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete, onSkip }) => {
         { text: 'Recruiter Detected. Access Level: Elevated.', delay: 700 },
         { text: 'Device Ready. Core Allocation: Optimized.', delay: 1400 },
         { text: 'Rendering Interface...', delay: 2100 },
-        { text: 'WELCOME TO HARSHA OS', delay: 2800 }
+        { text: 'WELCOME TO HARSHA', delay: 2800 }
       ];
 
       scanSteps.forEach((step) => {
         setTimeout(() => {
           setScanMessage(step.text);
-          if (step.text === 'WELCOME TO HARSHA OS') {
+          if (step.text === 'WELCOME TO HARSHA') {
             play('success');
             // Trigger speech welcome narration
             narrate(
@@ -188,7 +188,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete, onSkip }) => {
             </div>
           </div>
           <p className="mt-8 text-xs font-mono text-[#00E5FF] tracking-widest uppercase animate-pulse">
-            Initializing Harsha OS...
+            Initializing Harsha...
           </p>
         </div>
       )}
@@ -201,7 +201,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete, onSkip }) => {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#00E5FF] to-[#7B61FF] flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.4)]">
               <span className="font-extrabold text-white text-xs">HV</span>
             </div>
-            <span className="font-mono text-sm tracking-wider text-[#B8C1CC]">HARSHA OS v2030</span>
+            <span className="font-mono text-sm tracking-wider text-[#B8C1CC]">HARSHA v2030</span>
           </div>
 
           {/* Boot Terminal Box */}

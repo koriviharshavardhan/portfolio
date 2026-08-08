@@ -6,7 +6,7 @@ import { isAudioEnabled, setAudioEnabled, startAmbient, stopAmbient, speakText, 
 interface SoundContextType {
   soundEnabled: boolean;
   setSound: (enabled: boolean) => void;
-  play: (type: 'click' | 'hover' | 'tick' | 'whoosh' | 'achievement' | 'scan' | 'error' | 'success') => void;
+  play: (type: 'click' | 'hover' | 'tick' | 'whoosh' | 'achievement' | 'scan' | 'error' | 'success' | 'scroll') => void;
   narrate: (text: string, onEnd?: () => void) => void;
   muteAll: () => void;
   startBackgroundMusic: () => void;
@@ -33,6 +33,23 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
+  // Global scroll audio effect listener
+  useEffect(() => {
+    let lastScrollTime = 0;
+
+    const handleScroll = () => {
+      const now = Date.now();
+      // Throttle scroll sound to play max once every 85ms while scrolling
+      if (now - lastScrollTime > 85) {
+        lastScrollTime = now;
+        playSound('scroll');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const setSound = (enabled: boolean) => {
     setAudioEnabled(enabled);
     setSoundEnabledState(enabled);
@@ -45,7 +62,7 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const play = (type: 'click' | 'hover' | 'tick' | 'whoosh' | 'achievement' | 'scan' | 'error' | 'success') => {
+  const play = (type: 'click' | 'hover' | 'tick' | 'whoosh' | 'achievement' | 'scan' | 'error' | 'success' | 'scroll') => {
     playSound(type);
   };
 

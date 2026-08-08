@@ -75,7 +75,7 @@ export const SoundModal: React.FC<SoundModalProps> = ({ onDismiss, onSkip }) => 
           SYSTEM BOOT SEQUENCE
         </h2>
         <p className="text-[#00E5FF] text-xs font-mono tracking-widest uppercase mb-6">
-          HARSHA OS v2030 Initializing
+          HARSHA v2030 Initializing
         </p>
 
         <div className="text-left font-sans text-[#B8C1CC] text-sm space-y-3 mb-8 bg-black/35 p-4 rounded-xl border border-white/5">

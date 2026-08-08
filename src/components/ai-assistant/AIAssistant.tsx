@@ -15,7 +15,7 @@ export const AIAssistant: React.FC = () => {
   const { play, narrate, soundEnabled } = useSound();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { sender: 'ai', text: "Hello. I'm the AI Assistant for Harsha OS. I can answer questions about Harsha's Projects, Skills, Education, Certificates, or Contact info. What would you like to know?" }
+    { sender: 'ai', text: "Hello. I'm the AI Assistant for Harsha. I can answer questions about Harsha's Projects, Skills, Education, Certificates, or Contact info. What would you like to know?" }
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -232,7 +232,7 @@ export const AIAssistant: React.FC = () => {
             ? 'bg-[#FF4D6D] shadow-[0_0_20px_rgba(255,77,109,0.4)] border border-[#FF4D6D]/30 rotate-90'
             : 'bg-gradient-to-tr from-[#00E5FF] to-[#7B61FF] shadow-[0_0_25px_rgba(0,229,255,0.4)] hover:shadow-[0_0_30px_#00E5FF] border border-white/10 hover:scale-110 hover:rotate-[15deg]'
         }`}
-        title="Toggle Harsha OS AI Assistant"
+        title="Toggle Harsha AI Assistant"
       >
         {isOpen ? (
           <X className="w-5.5 h-5.5 text-white" />

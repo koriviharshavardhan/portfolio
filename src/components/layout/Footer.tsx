@@ -29,7 +29,7 @@ export const Footer: React.FC = () => {
               <span className="font-extrabold text-white text-[9px]">HV</span>
             </div>
             <span className="font-sans font-bold text-xs tracking-wider text-white">
-              HARSHA OS 2030
+              HARSHA 2030
             </span>
           </div>
           <p className="text-[10px] text-[#6B7280] font-mono tracking-wide mt-1">
