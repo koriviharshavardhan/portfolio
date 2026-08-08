@@ -50,6 +50,15 @@ export default function Home() {
     }
   }, [appReady]);
 
+  const handleSkipIntro = () => {
+    setShowSoundModal(false);
+    setBootSequenceActive(false);
+    setAppReady(true);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  };
+
   const handleSoundModalDismiss = () => {
     setShowSoundModal(false);
     setBootSequenceActive(true);
@@ -75,12 +84,12 @@ export default function Home() {
         <AnimatePresence mode="wait">
           {/* Phase 1: Voice/Sound permission check */}
           {showSoundModal && (
-            <SoundModal key="sound-modal" onDismiss={handleSoundModalDismiss} />
+            <SoundModal key="sound-modal" onDismiss={handleSoundModalDismiss} onSkip={handleSkipIntro} />
           )}
 
           {/* Phase 2: OS Boot Loader Sequence */}
           {bootSequenceActive && (
-            <Preloader key="preloader" onComplete={handlePreloaderComplete} />
+            <Preloader key="preloader" onComplete={handlePreloaderComplete} onSkip={handleSkipIntro} />
           )}
 
           {/* Phase 3: Core Operating System Layout */}

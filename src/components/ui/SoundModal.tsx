@@ -6,9 +6,10 @@ import { Volume2, VolumeX, ShieldAlert } from 'lucide-react';
 
 interface SoundModalProps {
   onDismiss: () => void;
+  onSkip?: () => void;
 }
 
-export const SoundModal: React.FC<SoundModalProps> = ({ onDismiss }) => {
+export const SoundModal: React.FC<SoundModalProps> = ({ onDismiss, onSkip }) => {
   const { setSound, play } = useSound();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -38,6 +39,20 @@ export const SoundModal: React.FC<SoundModalProps> = ({ onDismiss }) => {
 
   return (
     <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity duration-500">
+      {/* TOP-RIGHT DIRECT SKIP INTRO BUTTON */}
+      {onSkip && (
+        <button
+          onClick={() => {
+            play('click');
+            onSkip();
+          }}
+          className="fixed top-6 right-6 z-[99999] px-4 py-2 bg-black/75 border border-[#00E5FF]/40 text-[#00E5FF] hover:bg-[#00E5FF]/20 rounded-full font-mono text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-[0_0_20px_rgba(0,229,255,0.35)] hover:scale-105 cursor-pointer flex items-center gap-2 backdrop-blur-md active:scale-95"
+        >
+          <span>Skip Intro</span>
+          <span className="text-white">➔</span>
+        </button>
+      )}
+
       <div 
         className="glass-panel max-w-md w-full mx-4 p-8 rounded-[28px] border border-white/10 shadow-[0_0_50px_rgba(0,229,255,0.15)] text-center relative overflow-hidden transform transition-all duration-500 scale-100"
         onMouseEnter={() => play('hover')}

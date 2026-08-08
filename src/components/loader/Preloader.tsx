@@ -6,6 +6,7 @@ import { Terminal, Shield, CheckCircle2 } from 'lucide-react';
 
 interface PreloaderProps {
   onComplete: () => void;
+  onSkip?: () => void;
 }
 
 const BOOT_LOGS = [
@@ -21,7 +22,7 @@ const BOOT_LOGS = [
   "Launching Harsha OS..."
 ];
 
-export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
+export const Preloader: React.FC<PreloaderProps> = ({ onComplete, onSkip }) => {
   const { play, narrate } = useSound();
   const [progress, setProgress] = useState(0);
   const [currentLogIndex, setCurrentLogIndex] = useState(0);
@@ -154,6 +155,20 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         <div className="absolute top-[80%] left-[15%] w-[3px] h-[3px] bg-[#00FFA3] rounded-full blur-[1px] animate-pulse" style={{ animationDelay: '2s' }} />
         <div className="absolute top-[40%] left-[70%] w-[5px] h-[5px] bg-[#00E5FF] rounded-full blur-[1px] animate-pulse" style={{ animationDelay: '1.5s' }} />
       </div>
+
+      {/* TOP-RIGHT DIRECT SKIP INTRO BUTTON */}
+      {onSkip && (
+        <button
+          onClick={() => {
+            play('click');
+            onSkip();
+          }}
+          className="fixed top-6 right-6 z-[99999] px-4 py-2 bg-black/75 border border-[#00E5FF]/40 text-[#00E5FF] hover:bg-[#00E5FF]/20 rounded-full font-mono text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-[0_0_20px_rgba(0,229,255,0.35)] hover:scale-105 cursor-pointer flex items-center gap-2 backdrop-blur-md active:scale-95"
+        >
+          <span>Skip Intro</span>
+          <span className="text-white">➔</span>
+        </button>
+      )}
 
       {/* FLASH LAYER */}
       {flash && (
